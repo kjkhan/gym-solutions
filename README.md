@@ -3,15 +3,15 @@ OpenAI Gym Solutions
 
 ## Requirements
 
-- Python v2.7.13
-- virtualenv
-- pip
+- Python v3.6.5
+- anaconda
 
 ## How to Run
 
-1. Run `virtualenv venv`
-2. Run `source venv/bin/activate`
-3. Run `pip install -r requirements.txt`
+1. Run `conda create --name a4`
+2. Run `source activate a4`
+3. Run `conda install --yes --file requirements.txt`
+4. Run `pip install gym pyglet`
 
 ### Experiments
 

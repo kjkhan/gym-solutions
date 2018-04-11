@@ -10,7 +10,7 @@ def timing(f):
         time1 = time.time()
         ret = f(*args)
         time2 = time.time()
-        print '%s function took %0.3f ms' % (f.func_name, (time2-time1)*1000.0)
+        print('%s function took %0.3f ms' % (f.__name__, (time2-time1)*1000.0))
         return ret
     return wrap
 
@@ -32,7 +32,7 @@ def evaluate_rewards_and_transitions(problem, mutate=False):
                 T[state, action, next_state] = probability
 
             # Normalize T across state + action axes
-            T[state, action, :] /= np.sum(T[state, action, :])
+            T[state, action,:] /= np.sum(T[state, action,:])
 
     # Conditionally mutate and return
     if mutate:
@@ -101,35 +101,35 @@ def policy_iteration(problem, R=None, T=None, gamma=0.9, max_iterations=10**6, d
     return policy, i + 1
 
 def print_policy(policy, mapping=None, shape=(0,)):
-    print np.array([mapping[action] for action in policy]).reshape(shape)
+    print(np.array([mapping[action] for action in policy]).reshape(shape))
 
 def run_discrete(environment_name, mapping, shape=None):
     problem = gym.make(environment_name)
-    print '== {} =='.format(environment_name)
-    print 'Actions:', problem.env.action_space.n
-    print 'States:', problem.env.observation_space.n
-    print problem.env.desc
-    print
+    print('== {} =='.format(environment_name))
+    print('Actions:', problem.env.action_space.n)
+    print('States:', problem.env.observation_space.n)
+    print(problem.env.desc)
+    print()
 
-    print '== Value Iteration =='
+    print('== Value Iteration ==')
     value_policy, iters = value_iteration(problem)
-    print 'Iterations:', iters
-    print
+    print('Iterations:', iters)
+    print()
 
-    print '== Policy Iteration =='
+    print('== Policy Iteration ==')
     policy, iters = policy_iteration(problem)
-    print 'Iterations:', iters
-    print
+    print('Iterations:', iters)
+    print()
 
     diff = sum([abs(x-y) for x, y in zip(policy.flatten(), value_policy.flatten())])
     if diff > 0:
-        print 'Discrepancy:', diff
-        print
+        print('Discrepancy:', diff)
+        print()
 
     if shape is not None:
-        print '== Policy =='
+        print('== Policy ==')
         print_policy(policy, mapping, shape)
-        print
+        print()
 
     return policy
 
@@ -140,7 +140,7 @@ run_discrete('FrozenLake-v0', mapping, shape)
 
 # FROZEN LAKE LARGE
 shape = (8, 8)
-run_discrete('FrozenLake8x8-v0', mapping ,shape)
+run_discrete('FrozenLake8x8-v0', mapping, shape)
 
 # TAXI
 mapping = {0: "S", 1: "N", 2: "E", 3: "W", 4: "P", 5: "D"}
