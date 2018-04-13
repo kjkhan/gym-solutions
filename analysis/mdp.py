@@ -103,8 +103,13 @@ def policy_iteration(problem, R=None, T=None, gamma=0.9, max_iterations=10**6, d
 def print_policy(policy, mapping=None, shape=(0,)):
     print(np.array([mapping[action] for action in policy]).reshape(shape))
 
-def run_discrete(environment_name, mapping, shape=None):
-    problem = gym.make(environment_name)
+def run_discrete(environment_name, mapping, shape=None, problem=None):
+    if problem is None:
+        problem = gym.make(environment_name)
+    else:
+        from gym.wrappers.time_limit import TimeLimit
+        problem = TimeLimit(problem)
+        
     print('== {} =='.format(environment_name))
     print('Actions:', problem.env.action_space.n)
     print('States:', problem.env.observation_space.n)
@@ -133,15 +138,16 @@ def run_discrete(environment_name, mapping, shape=None):
 
     return policy
 
-# FROZEN LAKE SMALL
-mapping = {0: "L", 1: "D", 2: "R", 3: "U"}
-shape = (4, 4)
-run_discrete('FrozenLake-v0', mapping, shape)
+if __name__ == "__main__":
+    # FROZEN LAKE SMALL
+    mapping = {0: "L", 1: "D", 2: "R", 3: "U"}
+    shape = (4, 4)
+    run_discrete('FrozenLake-v0', mapping, shape)
 
-# FROZEN LAKE LARGE
-shape = (8, 8)
-run_discrete('FrozenLake8x8-v0', mapping, shape)
+    # FROZEN LAKE LARGE
+    shape = (8, 8)
+    run_discrete('FrozenLake8x8-v0', mapping, shape)
 
-# TAXI
-mapping = {0: "S", 1: "N", 2: "E", 3: "W", 4: "P", 5: "D"}
-run_discrete('Taxi-v2', mapping)
+    # TAXI
+    mapping = {0: "S", 1: "N", 2: "E", 3: "W", 4: "P", 5: "D"}
+    run_discrete('Taxi-v2', mapping)
